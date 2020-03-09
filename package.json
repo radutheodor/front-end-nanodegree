@@ -1,0 +1,12 @@
+{
+  "name": "weather-journal-app",
+  "version": "0.0.1",
+  "description": "Udacity Front End Nanodegree - Weather Journal App",
+  "author": "Theodor Radu <theo.registrations@icloud.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "cors": "^2.8.5",
+    "body-parser": "^1.19.0"
+  }
+}
