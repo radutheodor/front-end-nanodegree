@@ -1,5 +1,5 @@
 // Personal API Key for OpenWeatherMap API
-const apiKey = "a36...";
+const apiKey = "a36efd97ade440d2921b0a4ee436a857";
 /* Global Variables */
 const baseUrl = "http://api.openweathermap.org/data/2.5/weather?";
 
