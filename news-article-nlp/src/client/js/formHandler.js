@@ -12,6 +12,19 @@ function handleSubmit(event) {
     .then(function(res) {
       document.getElementById("results").innerHTML = res.message;
     });
+
+  getData();
 }
+
+const getData = async () => {
+  const request = await fetch("/aylin");
+  try {
+    const data = await request.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log("Error occured while getting project data.", error);
+  }
+};
 
 export { handleSubmit };
