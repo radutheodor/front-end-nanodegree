@@ -1,30 +1,46 @@
-function handleSubmit(event) {
+function handleTextSubmit(event) {
   event.preventDefault();
 
-  // check what text was put into the form field
-  console.log("Moe");
-  let formText = document.getElementById("name").value;
-  Client.checkForName(formText);
+  let textToAnalyze = document.getElementById("text").value;
 
-  console.log("::: Form Submitted :::");
-  fetch("http://localhost:8082/test")
-    .then(res => res.json())
-    .then(function(res) {
-      document.getElementById("results").innerHTML = res.message;
+  console.log("::: Text Form Submitted :::");
+  fetch("http://localhost:8081/textSentiment", {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ text: textToAnalyze })
+  })
+    .then(response => response.json())
+    .then(response => {
+      document.getElementById("text").innerHTML = `Analyzed text: "${response.text}"`;
+      document.getElementById("polarity").innerHTML = `Polarity: ${response.polarity}`;
+      document.getElementById("subjectivity").innerHTML = `Subjectivity: ${response.subjectivity}`;
     });
-
-  getData();
 }
 
-const getData = async () => {
-  const request = await fetch("/aylin");
-  try {
-    const data = await request.json();
-    console.log(data);
-    return data;
-  } catch (error) {
-    console.log("Error occured while getting project data.", error);
-  }
-};
+function handleUrlSubmit(event) {
+  event.preventDefault();
 
-export { handleSubmit };
+  let urlToAnalyze = document.getElementById("url").value;
+
+  console.log("::: URL Form Submitted :::");
+  fetch("http://localhost:8081/urlSentiment", {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ text: urlToAnalyze })
+  })
+    .then(response => response.json())
+    .then(response => {
+      document.getElementById("text").innerHTML = `Analyzed URL: "${response.text}"`;
+      document.getElementById("polarity").innerHTML = `Polarity: ${response.polarity}`;
+      document.getElementById("subjectivity").innerHTML = `Subjectivity: ${response.subjectivity}`;
+    });
+}
+
+export { handleTextSubmit };
+export { handleUrlSubmit };

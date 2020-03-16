@@ -1,9 +1,8 @@
 // Setup empty JS object to act as endpoint for all routes
-projectData = [];
+//projectData = [];
 
 const path = require("path");
 const express = require("express");
-const mockAPIResponse = require("./mockAPI.js");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const aylien = require("aylien_textapi");
@@ -12,7 +11,7 @@ dotenv.config();
 
 // set aylien API credentials
 const textapi = new aylien({
-  application_id: process.env.API_ID,
+  application_id: process.env.APP_ID,
   application_key: process.env.API_KEY
 });
 
@@ -25,29 +24,56 @@ app.use(
   })
 );
 
-app.use(express.static(path.join("../..", "dist")));
+//app.use(express.static(path.join("../..", "dist")));
+app.use(express.static("dist"));
 
-app.get("/", function(req, res) {
-  res.sendFile("index.html", { root: "../../dist" });
+const port = 8081;
+app.listen(port, () => {
+  console.log(`Server started on port ${port}`);
 });
 
-// designates what port the app will listen to for incoming requests
-app.listen(8082, function() {
-  console.log(`API KEY ${process.env.API_KEY}`);
-  console.log(`APP ID ${process.env.APP_ID}`);
-  console.log("Example app listening on port 8082!");
+app.get("/", (request, response) => {
+  //res.sendFile("index.html", { root: "../../dist" });
+  response.sendFile(path.resolve("src/client/views/index.html"));
 });
 
-app.get("/test", function(req, res) {
-  res.send(mockAPIResponse);
+app.post("/urlSentiment", (request, response) => {
+  textapi.sentiment(
+    {
+      text: request.body.text
+    },
+    (error, sentiment, rateLimits) => {
+      console.log(rateLimits);
+      console.log(sentiment);
+      response.send(sentiment);
+    }
+  );
+});
+
+app.post("/textSentiment", (request, response) => {
+  textapi.sentiment(
+    {
+      text: request.body.text
+    },
+    (error, sentiment, rateLimits) => {
+      console.log(rateLimits);
+      console.log(sentiment);
+      response.send(sentiment);
+    }
+  );
 });
 
 app.get("/aylien", (request, response) => {
-  textapi.sentiment({
-    text: "John is a very good football player",
-    function(err, result, rateLimits) {
+  textapi.sentiment(
+    {
+      text: "Calin is a very nice guy"
+    },
+    (error, sentiment, rateLimits) => {
       console.log(rateLimits);
-      console.log(result);
+      console.log(sentiment);
+      response.send(sentiment);
     }
-  });
+  );
 });
+
+module.exports = app;

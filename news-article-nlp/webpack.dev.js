@@ -10,6 +10,11 @@ module.exports = {
     library: "Client"
   },
   mode: "development",
+  devServer: {
+    contentBase: "./dist",
+    compress: true,
+    port: 9000
+  },
   devtool: "source-map",
   stats: "verbose",
   module: {
