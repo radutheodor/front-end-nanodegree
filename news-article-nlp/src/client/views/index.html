@@ -6,6 +6,7 @@
   </head>
 
   <body>
+    <!--
     <header>
       <div class="">
         Logo
@@ -14,25 +15,35 @@
         navigation
       </div>
     </header>
-
+    -->
     <main>
       <section>
         <form class="" onsubmit="return Client.handleTextSubmit(event)">
+          <div>Please enter below a text to be analyzed. The text has to be max 144 characters</div>
           <input id="text" type="text" name="text" value="Enter text here" placeholder="Text" />
+          <div id="textErrors" style="display: none;">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">close &times;</span>
+            <div id="textError"></div>
+          </div>
           <input type="submit" name="" value="submit" onclick="return Client.handleTextSubmit(event)" onsubmit="return Client.handleTextSubmit(event)" />
         </form>
       </section>
 
       <section>
         <form class="" onsubmit="return Client.handleUrlSubmit(event)">
+          <div>Please enter below a valid URL to be analyzed</div>
           <input id="url" type="text" name="url" value="Enter URL here" placeholder="URL" />
+          <div id="urlErrors" style="display: none;">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">close &times;</span>
+            <div id="urlError"></div>
+          </div>
           <input type="submit" name="" value="submit" onclick="return Client.handleUrlSubmit(event)" onsubmit="return Client.handleUrlSubmit(event)" />
         </form>
       </section>
 
       <section>
         <strong>Sentiment analysis results</strong>
-        <div id="text"></div>
+        <div id="analized"></div>
         <div id="polarity"></div>
         <div id="subjectivity"></div>
       </section>

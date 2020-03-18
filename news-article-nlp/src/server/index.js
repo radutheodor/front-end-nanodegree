@@ -1,6 +1,3 @@
-// Setup empty JS object to act as endpoint for all routes
-//projectData = [];
-
 const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -24,7 +21,9 @@ app.use(
   })
 );
 
-//app.use(express.static(path.join("../..", "dist")));
+/* when running node index.js from within server folder
+app.use(express.static(path.join("../..", "dist")));
+*/
 app.use(express.static("dist"));
 
 const port = 8081;
@@ -33,11 +32,17 @@ app.listen(port, () => {
 });
 
 app.get("/", (request, response) => {
-  //res.sendFile("index.html", { root: "../../dist" });
+  /* when running node index.js from within server folder
+  res.sendFile("index.html", { root: "../../dist" });
+  */
   response.sendFile(path.resolve("src/client/views/index.html"));
 });
 
-app.post("/urlSentiment", (request, response) => {
+/**
+ * Sentiment request
+ * Docs: https://docs.aylien.com/textapi/endpoints/#sentiment-analysis
+ */
+app.post("/sentiment", (request, response) => {
   textapi.sentiment(
     {
       text: request.body.text
@@ -50,28 +55,18 @@ app.post("/urlSentiment", (request, response) => {
   );
 });
 
-app.post("/textSentiment", (request, response) => {
-  textapi.sentiment(
+/**
+ * Language request
+ * Docs: https://docs.aylien.com/textapi/endpoints/#language-detection
+ */
+app.post("/language", (request, response) => {
+  textapi.language(
     {
       text: request.body.text
     },
-    (error, sentiment, rateLimits) => {
-      console.log(rateLimits);
-      console.log(sentiment);
-      response.send(sentiment);
-    }
-  );
-});
-
-app.get("/aylien", (request, response) => {
-  textapi.sentiment(
-    {
-      text: "Calin is a very nice guy"
-    },
-    (error, sentiment, rateLimits) => {
-      console.log(rateLimits);
-      console.log(sentiment);
-      response.send(sentiment);
+    (error, language) => {
+      console.log(language);
+      response.send(language);
     }
   );
 });
